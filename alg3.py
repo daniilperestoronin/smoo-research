@@ -14,4 +14,4 @@ print(assets)
 print(dates)
 
 print(volumes)
-print(prices)
+print(volumes)
