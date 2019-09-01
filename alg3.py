@@ -2,37 +2,65 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
+from scipy.optimize import linprog
+
+# a dataset for portfolio optimization and other finance applications.
+# It covers 10 years, from January 2006 to December 2016, and comprises a set
+# of 52 popular exchange traded funds (ETFs) and the US central bank (FED)
+# rate of return
 
 returns = pd.read_csv('./data/returns.txt', index_col=0)
+# an assets array of dimension n
 assets = np.array(returns.columns)
+# a dates array of dimension T
 dates = np.array(returns.index)
+# a returns matrix of dimension T by n (non-dimensional).
 returns = returns.values
 T, n = returns.shape
+# a volumes matrix of dimension T by n, in dollars
 volumes = np.genfromtxt('./data/volumes.txt', delimiter=',')[2:, 1:]
+# a prices matrix of dimension T by n, in dollars
 prices = np.genfromtxt('./data/prices.txt', delimiter=',')[2:, 1:]
 
 ################################################################################
 # Graphs
 ################################################################################
 
-print(assets)
+# plt.plot(returns)
+# plt.title('Daily market returns for last 10 years')
+# plt.xlabel('days')
+# plt.legend(assets, loc=2, prop={'size': 2})
+# plt.show()
+#
+# plt.plot(volumes)
+# plt.title('Daily market volumes for last 10 years')
+# plt.xlabel('days')
+# plt.ylabel('dollars')
+# plt.legend(assets, loc=2, prop={'size': 2})
+# plt.show()
+#
+# plt.plot(prices)
+# plt.title('Daily market close prices for last 10 years')
+# plt.xlabel('days')
+# plt.ylabel('dollars')
+# plt.legend(assets, loc=2, prop={'size': 2})
+# plt.show()
 
-plt.plot(returns)
-plt.title('Daily market returns for last 10 years')
-plt.xlabel('days')
-plt.legend(assets, loc=2, prop={'size': 2})
-plt.show()
+################################################################################
+# Linprog
+################################################################################
 
-plt.plot(volumes)
-plt.title('Daily market volumes for last 10 years')
-plt.xlabel('days')
-plt.ylabel('dollars')
-plt.legend(assets, loc=2, prop={'size': 2})
-plt.show()
+# mean return
+m_returns = np.sum(returns, axis=0) / T
 
-plt.plot(prices)
-plt.title('Daily market close prices for last 10 years')
-plt.xlabel('days')
-plt.ylabel('dollars')
-plt.legend(assets, loc=2, prop={'size': 2})
-plt.show()
+# The probability of a negative return
+n_exp = np.sum(np.array(returns) <= 0, axis=0) / float(T)
+
+alpha = 0.5
+gamma = 0.5
+
+vct = alpha*m_returns - gamma*n_exp
+
+res = linprog(vct, A_eq=A_m, b_eq=b_p)
+
+print(res)
