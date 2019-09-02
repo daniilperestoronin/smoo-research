@@ -67,7 +67,7 @@ matrix = [[0 for y in xrange(n)] for x in xrange(n)]
 matrix[0] = [1 for y in xrange(n)]
 
 b = [0 for i in xrange(n)]
-b[0] = 50000
+b[0] = 1
 
 res = linprog(vct, A_ub=matrix, b_ub=b, method='interior-point')
 
