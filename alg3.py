@@ -59,8 +59,16 @@ n_exp = np.sum(np.array(returns) <= 0, axis=0) / float(T)
 alpha = 0.5
 gamma = 0.5
 
-vct = alpha*m_returns - gamma*n_exp
+vct = list(-alpha * m_returns + gamma * n_exp)
 
-res = linprog(vct, A_eq=A_m, b_eq=b_p)
+print(vct)
+
+matrix = [[0 for y in xrange(n)] for x in xrange(n)]
+matrix[0] = [1 for y in xrange(n)]
+
+b = [0 for i in xrange(n)]
+b[0] = 50000
+
+res = linprog(vct, A_ub=matrix, b_ub=b, method='interior-point')
 
 print(res)
