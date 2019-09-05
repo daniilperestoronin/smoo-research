@@ -9,7 +9,7 @@ from scipy.optimize import linprog
 # of 52 popular exchange traded funds (ETFs) and the US central bank (FED)
 # rate of return
 
-returns = pd.read_csv('./data/returns.txt', index_col=0)
+returns = pd.read_csv('./data/returns.csv', index_col=0)
 
 # an assets array of dimension n
 assets = np.array(returns.columns)
@@ -22,10 +22,10 @@ returns = returns.values
 T, n = returns.shape
 
 # a volumes matrix of dimension T by n, in dollars
-volumes = np.genfromtxt('./data/volumes.txt', delimiter=',')[2:, 1:]
+volumes = np.genfromtxt('./data/volumes.csv', delimiter=',')[2:, 1:]
 
 # a prices matrix of dimension T by n, in dollars
-prices = np.genfromtxt('./data/prices.txt', delimiter=',')[2:, 1:]
+prices = np.genfromtxt('./data/prices.csv', delimiter=',')[2:, 1:]
 
 # The probability of a negative return matrix
 prob_n_ret = np.empty([T, n])
@@ -83,12 +83,12 @@ gamma = 0.5
 vct = list(-alpha * m_returns + gamma * m_prob_n_ret)
 
 matrix = [[0 for y in xrange(n)] for x in xrange(n)]
-matrix[0] = m_returns
+matrix[0] = [1 for i in xrange(n)]
 
 b = [0 for i in xrange(n)]
-b[0] = 100000
+b[0] = 1
 
-res = linprog(vct, A_eq=matrix, b_eq=b, method='interior-point')
+res = linprog(vct, A_ub=matrix, b_ub=b, method='interior-point')
 
 print(res)
 
@@ -100,7 +100,7 @@ n_returns = np.amin(returns, axis=0)
 n_prob_n_ret = np.amin(prob_n_ret, axis=0)
 n_vct = list(-alpha * n_returns + gamma * n_prob_n_ret)
 
-n_res = linprog(n_vct, A_eq=matrix, b_eq=b, method='interior-point')
+n_res = linprog(n_vct, A_ub=matrix, b_ub=b, method='interior-point')
 
 print(n_res)
 
@@ -112,6 +112,6 @@ p_returns = np.amax(returns, axis=0)
 p_prob_n_ret = np.amax(prob_n_ret, axis=0)
 p_vct = list(-alpha * p_returns + gamma * p_prob_n_ret)
 
-p_res = linprog(p_vct, A_eq=matrix, b_eq=b, method='interior-point')
+p_res = linprog(p_vct, A_ub=matrix, b_ub=b, method='interior-point')
 
 print(p_res)
