@@ -37,31 +37,31 @@ for i in xrange(T):
 # Graphs
 ################################################################################
 
-# plt.plot(returns)
-# plt.title('Daily market returns for last 10 years')
-# plt.xlabel('days')
-# plt.legend(assets, loc=2, prop={'size': 2})
-# plt.show()
-#
-# plt.plot(volumes)
-# plt.title('Daily market volumes for last 10 years')
-# plt.xlabel('days')
-# plt.ylabel('dollars')
-# plt.legend(assets, loc=2, prop={'size': 2})
-# plt.show()
-#
-# plt.plot(prices)
-# plt.title('Daily market close prices for last 10 years')
-# plt.xlabel('days')
-# plt.ylabel('dollars')
-# plt.legend(assets, loc=2, prop={'size': 2})
-# plt.show()
-#
-# plt.plot(prob_n_ret)
-# plt.title('The probability of a negative return for last 10 years')
-# plt.xlabel('days')
-# plt.legend(assets, loc=2, prop={'size': 2})
-# plt.show()
+plt.plot(returns)
+plt.title('Daily market returns for last 10 years')
+plt.xlabel('days')
+plt.legend(assets, loc=2, prop={'size': 2})
+plt.show()
+
+plt.plot(volumes)
+plt.title('Daily market volumes for last 10 years')
+plt.xlabel('days')
+plt.ylabel('dollars')
+plt.legend(assets, loc=2, prop={'size': 2})
+plt.show()
+
+plt.plot(prices)
+plt.title('Daily market close prices for last 10 years')
+plt.xlabel('days')
+plt.ylabel('dollars')
+plt.legend(assets, loc=2, prop={'size': 2})
+plt.show()
+
+plt.plot(prob_n_ret)
+plt.title('The probability of a negative return for last 10 years')
+plt.xlabel('days')
+plt.legend(assets, loc=2, prop={'size': 2})
+plt.show()
 
 ################################################################################
 # Linprog
