@@ -28,12 +28,7 @@ volumes = np.genfromtxt('./data/volumes.csv', delimiter=',')[2:, 1:]
 prices = np.genfromtxt('./data/prices.csv', delimiter=',')[2:, 1:]
 
 # The probability of a negative return matrix
-prob_n_ret = np.empty([T, n])
-
-for i in xrange(T):
-    prob_n_ret[i] = np.sum(np.array(returns[:i, :]) <= 0, axis=0) / float(i + 1)
-
-prob_n_ret[0] = prob_n_ret[1]
+prob_n_ret = np.genfromtxt('./data/n_prob.csv', delimiter=',')[2:, 1:]
 
 ################################################################################
 # Graphs
